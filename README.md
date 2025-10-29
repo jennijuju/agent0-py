@@ -19,7 +19,7 @@ Agent0 SDK v0.2 enables you to:
 
 Agent0 SDK v0.2 is in **alpha** with bugs and is not production ready. We're actively testing and improving it.
 
-**Bug reports & feedback:** Telegram: [@marcoderossi](https://t.me/marcoderossi) | Email: marco.derossi@consensys.net | GitHub: [Report issues](https://github.com/agent0lab/agent0-sdk)
+**Bug reports & feedback:** GitHub: [Report issues](https://github.com/agent0lab/agent0-py/issues) | Telegram: [@marcoderossi](https://t.me/marcoderossi) | Email: marco.derossi@consensys.net
 
 ## Installation
 
