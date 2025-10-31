@@ -203,7 +203,7 @@ class Feedback:
     tags: List[str] = field(default_factory=list)
     text: Optional[str] = None
     context: Optional[Dict[str, Any]] = None
-    proof_of_payment: Optional[Dict[str, Any]] = None
+    proofOfPayment: Optional[Dict[str, Any]] = None
     fileURI: Optional[URI] = None
     createdAt: Timestamp = field(default_factory=lambda: int(datetime.now().timestamp()))
     answers: List[Dict[str, Any]] = field(default_factory=list)

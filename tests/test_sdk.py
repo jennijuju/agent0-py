@@ -18,13 +18,13 @@ class TestSDK:
             mock_web3.return_value.chain_id = 11155111
             
             sdk = SDK(
-                chain_id=11155111,
+                chainId=11155111,
                 signer="0x1234567890abcdef",
-                rpc_url="https://eth-sepolia.g.alchemy.com/v2/test"
+                rpcUrl="https://eth-sepolia.g.alchemy.com/v2/test"
             )
             
-            assert sdk.chain_id == 11155111
-            assert sdk.rpc_url == "https://eth-sepolia.g.alchemy.com/v2/test"
+            assert sdk.chainId == 11155111
+            assert sdk.rpcUrl == "https://eth-sepolia.g.alchemy.com/v2/test"
             mock_web3.assert_called_once()
     
     def test_create_agent(self):
@@ -33,9 +33,9 @@ class TestSDK:
             mock_web3.return_value.chain_id = 11155111
             
             sdk = SDK(
-                chain_id=11155111,
+                chainId=11155111,
                 signer="0x1234567890abcdef",
-                rpc_url="https://eth-sepolia.g.alchemy.com/v2/test"
+                rpcUrl="https://eth-sepolia.g.alchemy.com/v2/test"
             )
             
             agent = sdk.createAgent(
@@ -55,9 +55,9 @@ class TestSDK:
             mock_web3.return_value.chain_id = 11155111
             
             sdk = SDK(
-                chain_id=11155111,
+                chainId=11155111,
                 signer="0x1234567890abcdef",
-                rpc_url="https://eth-sepolia.g.alchemy.com/v2/test"
+                rpcUrl="https://eth-sepolia.g.alchemy.com/v2/test"
             )
             
         registries = sdk.registries()
@@ -71,13 +71,13 @@ class TestSDK:
             mock_web3.return_value.chain_id = 11155111
             
             sdk = SDK(
-                chain_id=11155111,
+                chainId=11155111,
                 signer="0x1234567890abcdef",
-                rpc_url="https://eth-sepolia.g.alchemy.com/v2/test"
+                rpcUrl="https://eth-sepolia.g.alchemy.com/v2/test"
             )
             
             sdk.set_chain(84532)  # Switch to Base Sepolia
-            assert sdk.chain_id == 84532
+            assert sdk.chainId == 84532
             assert sdk._registries["IDENTITY"] is not None  # Should have Base Sepolia registry
 
 
@@ -90,9 +90,9 @@ class TestAgent:
             mock_web3.return_value.chain_id = 11155111
             
             sdk = SDK(
-                chain_id=11155111,
+                chainId=11155111,
                 signer="0x1234567890abcdef",
-                rpc_url="https://eth-sepolia.g.alchemy.com/v2/test"
+                rpcUrl="https://eth-sepolia.g.alchemy.com/v2/test"
             )
             
             agent = sdk.createAgent("Test Agent", "A test agent")
@@ -130,24 +130,25 @@ class TestAgent:
             mock_web3.return_value.chain_id = 11155111
             
             sdk = SDK(
-                chain_id=11155111,
+                chainId=11155111,
                 signer="0x1234567890abcdef",
-                rpc_url="https://eth-sepolia.g.alchemy.com/v2/test"
+                rpcUrl="https://eth-sepolia.g.alchemy.com/v2/test"
             )
             
             agent = sdk.createAgent("Test Agent", "A test agent")
             
             # Set trust models using new method
             agent.setTrust(reputation=True, cryptoEconomic=True)
-            assert len(agent.trustModels) == 2
-            assert TrustModel.REPUTATION in agent.trustModels
-            assert TrustModel.CRYPTO_ECONOMIC in agent.trustModels
+            # Access trustModels through registration_file since property is shadowed by method
+            assert len(agent.registration_file.trustModels) == 2
+            assert TrustModel.REPUTATION in agent.registration_file.trustModels
+            assert TrustModel.CRYPTO_ECONOMIC in agent.registration_file.trustModels
             
-            # Set trust models using old method
-            agent.trustModels([TrustModel.REPUTATION, "custom_trust"])
-            assert len(agent.trustModels) == 2
-            assert TrustModel.REPUTATION in agent.trustModels
-            assert "custom_trust" in agent.trustModels
+            # Set trust models using direct assignment (since trustModels is a property, not callable)
+            agent.registration_file.trustModels = [TrustModel.REPUTATION, "custom_trust"]
+            assert len(agent.registration_file.trustModels) == 2
+            assert TrustModel.REPUTATION in agent.registration_file.trustModels
+            assert "custom_trust" in agent.registration_file.trustModels
     
     def test_agent_metadata_management(self):
         """Test agent metadata management."""
@@ -155,9 +156,9 @@ class TestAgent:
             mock_web3.return_value.chain_id = 11155111
             
             sdk = SDK(
-                chain_id=11155111,
+                chainId=11155111,
                 signer="0x1234567890abcdef",
-                rpc_url="https://eth-sepolia.g.alchemy.com/v2/test"
+                rpcUrl="https://eth-sepolia.g.alchemy.com/v2/test"
             )
             
             agent = sdk.createAgent("Test Agent", "A test agent")
@@ -180,9 +181,9 @@ class TestAgent:
             mock_web3.return_value.chain_id = 11155111
             
             sdk = SDK(
-                chain_id=11155111,
+                chainId=11155111,
                 signer="0x1234567890abcdef",
-                rpc_url="https://eth-sepolia.g.alchemy.com/v2/test"
+                rpcUrl="https://eth-sepolia.g.alchemy.com/v2/test"
             )
             
             agent = sdk.createAgent("Test Agent", "A test agent")
@@ -198,9 +199,10 @@ class TestAgent:
             assert agent.description == "An updated agent"
             assert agent.image == "https://example.com/new-image.png"
             
-            # Set wallet address
-            agent.setAgentWallet("0x1234567890abcdef")
-            assert agent.walletAddress == "0x1234567890abcdef"
+            # Set wallet address (must be valid 42-character Ethereum address)
+            valid_address = "0x1234567890abcdef1234567890abcdef12345678"
+            agent.setAgentWallet(valid_address)
+            assert agent.walletAddress == valid_address
     
     def test_agent_json_serialization(self):
         """Test agent JSON serialization."""
@@ -208,16 +210,16 @@ class TestAgent:
             mock_web3.return_value.chain_id = 11155111
             
             sdk = SDK(
-                chain_id=11155111,
+                chainId=11155111,
                 signer="0x1234567890abcdef",
-                rpc_url="https://eth-sepolia.g.alchemy.com/v2/test"
+                rpcUrl="https://eth-sepolia.g.alchemy.com/v2/test"
             )
             
             agent = sdk.createAgent("Test Agent", "A test agent")
             agent.setMCP("https://mcp.example.com/")
-            agent.trustModels([TrustModel.REPUTATION])
+            agent.setTrust(reputation=True)
             
-            json_data = agent.to_json()
+            json_data = agent.toJson()
             assert isinstance(json_data, str)
             assert "Test Agent" in json_data
             assert "MCP" in json_data
@@ -227,7 +229,7 @@ class TestAgent:
             agent.setX402Support(True)
             assert agent.x402support is True
             
-            json_data_with_x402 = agent.to_json()
+            json_data_with_x402 = agent.toJson()
             assert "x402support" in json_data_with_x402
             
             # Test active status

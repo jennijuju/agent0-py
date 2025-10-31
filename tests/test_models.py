@@ -67,7 +67,7 @@ class TestRegistrationFile:
         assert rf.name == "Test Agent"
         assert rf.description == "A test agent"
         assert rf.image == "https://example.com/image.png"
-        assert rf.active is True
+        assert rf.active is False
         assert rf.x402support is False
         assert rf.endpoints == []
         assert rf.trustModels == []

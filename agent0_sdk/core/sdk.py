@@ -481,7 +481,7 @@ class SDK:
         skill: Optional[str] = None,
         task: Optional[str] = None,
         context: Optional[Dict[str, Any]] = None,
-        proof_of_payment: Optional[Dict[str, Any]] = None,
+        proofOfPayment: Optional[Dict[str, Any]] = None,
         extra: Optional[Dict[str, Any]] = None,
     ) -> Dict[str, Any]:
         """Prepare feedback file (local file/object)."""
@@ -495,7 +495,7 @@ class SDK:
             skill=skill,
             task=task,
             context=context,
-            proof_of_payment=proof_of_payment,
+            proofOfPayment=proofOfPayment,
             extra=extra
         )
 
@@ -688,12 +688,12 @@ class SDK:
         skill: Optional[str] = None,
         task: Optional[str] = None,
         context: Optional[Dict[str, Any]] = None,
-        proof_of_payment: Optional[Dict[str, Any]] = None,
+        proofOfPayment: Optional[Dict[str, Any]] = None,
         extra: Optional[Dict[str, Any]] = None,
     ) -> Dict[str, Any]:
         """Prepare feedback file (local file/object) according to spec."""
         return self.feedback_manager.prepareFeedback(
-            agentId, score, tags, text, capability, name, skill, task, context, proof_of_payment, extra
+            agentId, score, tags, text, capability, name, skill, task, context, proofOfPayment, extra
         )
     
     def giveFeedback(

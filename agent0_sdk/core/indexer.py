@@ -719,7 +719,7 @@ class AgentIndexer:
             text=feedback_file.get('text'),
             capability=feedback_file.get('capability'),
             context=feedback_file.get('context'),
-            proof_of_payment={
+            proofOfPayment={
                 'fromAddress': feedback_file.get('proofOfPaymentFromAddress'),
                 'toAddress': feedback_file.get('proofOfPaymentToAddress'),
                 'chainId': feedback_file.get('proofOfPaymentChainId'),

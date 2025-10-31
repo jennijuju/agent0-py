@@ -105,7 +105,7 @@ class FeedbackManager:
         skill: Optional[str] = None,
         task: Optional[str] = None,
         context: Optional[Dict[str, Any]] = None,
-        proof_of_payment: Optional[Dict[str, Any]] = None,
+        proofOfPayment: Optional[Dict[str, Any]] = None,
         extra: Optional[Dict[str, Any]] = None,
     ) -> Dict[str, Any]:
         """Prepare feedback file (local file/object) according to spec."""
@@ -139,7 +139,7 @@ class FeedbackManager:
             "task": task,
             "capability": capability,
             "name": name,
-            "proof_of_payment": proof_of_payment,
+            "proofOfPayment": proofOfPayment,
         }
         
         # Remove None values to keep the structure clean
@@ -247,7 +247,7 @@ class FeedbackManager:
             tags=[feedbackFile.get("tag1"), feedbackFile.get("tag2")] if feedbackFile.get("tag1") else [],
             text=feedbackFile.get("text"),
             context=feedbackFile.get("context"),
-            proof_of_payment=feedbackFile.get("proof_of_payment"),
+            proofOfPayment=feedbackFile.get("proofOfPayment"),
             fileURI=feedbackUri if feedbackUri else None,
             createdAt=int(time.time()),
             isRevoked=False,
@@ -348,7 +348,7 @@ class FeedbackManager:
                 text=feedback_file.get('text'),
                 capability=feedback_file.get('capability'),
                 context=feedback_file.get('context'),
-                proof_of_payment={
+                proofOfPayment={
                     'fromAddress': feedback_file.get('proofOfPaymentFromAddress'),
                     'toAddress': feedback_file.get('proofOfPaymentToAddress'),
                     'chainId': feedback_file.get('proofOfPaymentChainId'),
@@ -404,7 +404,7 @@ class FeedbackManager:
                 text=None,  # Not stored on-chain
                 capability=None,  # Not stored on-chain
                 context=None,  # Not stored on-chain
-                proof_of_payment=None,  # Not stored on-chain
+                proofOfPayment=None,  # Not stored on-chain
                 fileURI=None,  # Would need to be retrieved separately
                 createdAt=int(time.time()),  # Not stored on-chain
                 isRevoked=is_revoked
@@ -486,7 +486,7 @@ class FeedbackManager:
                     capability=None,
                     endpoint=None,
                     context=None,
-                    proof_of_payment=None,
+                    proofOfPayment=None,
                     fileURI=None,
                     createdAt=int(time.time()),
                     isRevoked=revoked_statuses[i]
@@ -595,7 +595,7 @@ class FeedbackManager:
                 text=feedback_file.get('text'),
                 capability=feedback_file.get('capability'),
                 context=feedback_file.get('context'),
-                proof_of_payment={
+                proofOfPayment={
                     'fromAddress': feedback_file.get('proofOfPaymentFromAddress'),
                     'toAddress': feedback_file.get('proofOfPaymentToAddress'),
                     'chainId': feedback_file.get('proofOfPaymentChainId'),
